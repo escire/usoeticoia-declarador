@@ -17,6 +17,16 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Version
+def get_version():
+    """Read version from VERSION file"""
+    version_file = BASE_DIR / 'VERSION'
+    if version_file.exists():
+        return version_file.read_text().strip()
+    return 'unknown'
+
+VERSION = get_version()
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/

@@ -2,6 +2,21 @@
 
 Todos los cambios notables del proyecto serán documentados en este archivo.
 
+El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
+y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
+
+## [Unreleased]
+
+### Agregado
+- Sistema de versionado semántico con archivo VERSION
+- Script de automatización de versiones en `scripts/bump_version.py`
+- Documentación de flujo de versiones en `docs/VERSIONING.md`
+
+## [1.1.0] - 2025-12-18
+
+### Agregado
+- Sistema de versionado inicial
+
 ## [Correcciones en Guía de Despliegue] - 2025-12-01
 
 ### Corregido
