@@ -232,7 +232,9 @@ def generate_declaration_json(declaration, hash_value=None, lang='es'):
 
     payload = {
         'declarationType': 'academic-ai-transparency',
-        'version': '4.0.0',
+        'schemaVersion': '1.0.0',
+        'softwareVersion': '1.1.0',
+        'version': '1.1.0',
         'generatedAt': declaration.created_at.isoformat() if hasattr(declaration.created_at, 'isoformat') else None,
         'id': declaration.declaration_id,
         'validationHash': hash_value or 'pending',

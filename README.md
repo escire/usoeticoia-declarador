@@ -255,12 +255,60 @@ python manage.py clearsessions
 python manage.py collectstatic
 ```
 
+## Versionado del Proyecto
+
+Declarador utiliza **Semantic Versioning** (SemVer) para todas sus versiones.
+
+**Versión actual:** `1.1.0`
+
+### Formato de Versión
+
+```
+MAJOR.MINOR.PATCH
+```
+
+- **MAJOR**: Cambios incompatibles con versiones anteriores
+- **MINOR**: Nueva funcionalidad compatible
+- **PATCH**: Correcciones de bugs
+
+### Gestión de Versiones
+
+```bash
+# Ver versión actual
+python scripts/bump_version.py --current
+
+# Incrementar versión
+python scripts/bump_version.py patch  # 1.1.0 → 1.1.1 (correcciones)
+python scripts/bump_version.py minor  # 1.1.0 → 1.2.0 (nuevas funcionalidades)
+python scripts/bump_version.py major  # 1.1.0 → 2.0.0 (cambios incompatibles)
+```
+
+El script automáticamente:
+- Actualiza el archivo [VERSION](VERSION)
+- Actualiza [CHANGELOG.md](CHANGELOG.md)
+- Crea commit y tag git (`vX.Y.Z`)
+
+### Schema JSON
+
+El proyecto incluye un **JSON Schema oficial** para validar declaraciones:
+
+**Ubicación:** [core/schema.json](core/schema.json)
+
+**Referencia permanente (para publicaciones):**
+```
+https://github.com/escire/usoeticoia-declarador/blob/v1.1.0/core/schema.json
+```
+
+Para más detalles sobre versionado, consulta [docs/VERSIONING.md](docs/VERSIONING.md)
+
 ## Documentación
 
 La documentación completa se encuentra en la carpeta [docs/](docs/):
 
 - **[INSTALACION.md](docs/INSTALACION.md)** - Guía completa de instalación paso a paso
 - **[INICIO_RAPIDO.md](docs/INICIO_RAPIDO.md)** - Guía rápida de uso
+- **[VERSIONING.md](docs/VERSIONING.md)** - Sistema de versionado y releases
+- **[SCHEMA_REFERENCE.md](docs/SCHEMA_REFERENCE.md)** - Referencia del JSON Schema
 - **[POSTGRESQL.md](docs/POSTGRESQL.md)** - Configuración de PostgreSQL y búsqueda de declaraciones
 - **[RESUMEN_PROYECTO.md](docs/RESUMEN_PROYECTO.md)** - Visión general técnica
 - **[README_DECLARADOR.md](docs/README_DECLARADOR.md)** - Documentación técnica detallada

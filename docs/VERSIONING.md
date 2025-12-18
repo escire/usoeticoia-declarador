@@ -386,9 +386,174 @@ Plan sugerido de versiones futuras:
 - **v1.1.0**: Integración con ORCID
 - **v2.0.0**: Rediseño mayor de interfaz
 
+## Schema JSON para Whitepapers y Publicaciones
+
+### Referencia Oficial del Schema
+
+El proyecto incluye un **JSON Schema oficial** que define la estructura de las declaraciones generadas. Este schema es fundamental para:
+
+- Validación automática de declaraciones
+- Documentación técnica en publicaciones académicas
+- Integración con otros sistemas
+- Garantía de formato consistente
+
+**Ubicación del schema:** [core/schema.json](../core/schema.json)
+
+**Versión del schema:** `1.1.0` (corresponde a la versión del software)
+
+### Uso en Whitepapers y Publicaciones Académicas
+
+Cuando referenciar el schema en papers, whitepapers o documentación técnica, usa este formato:
+
+#### Formato Markdown (Recomendado)
+
+```markdown
+## Formato de Datos
+
+Las declaraciones generadas siguen el esquema JSON estandarizado disponible en:
+
+**Schema JSON (fuente de verdad):**
+https://github.com/escire/usoeticoia-declarador/blob/v1.1.0/core/schema.json
+
+*Nota: El tag v1.1.0 corresponde al release vinculado a este preprint.
+Versiones posteriores del schema pueden diferir.*
+```
+
+#### Formato LaTeX
+
+```latex
+\section{Formato de Datos}
+
+Las declaraciones generadas siguen el esquema JSON estandarizado
+disponible en el repositorio oficial\footnote{
+  \url{https://github.com/escire/usoeticoia-declarador/blob/v1.1.0/core/schema.json}
+  -- El tag v1.1.0 corresponde al release vinculado a este artículo.
+}.
+```
+
+#### Formato APA (7ª edición)
+
+```
+Declarador. (2025). JSON Schema para Declaraciones de Transparencia en IA
+(Versión 1.1.0) [Software]. GitHub.
+https://github.com/escire/usoeticoia-declarador/blob/v1.1.0/core/schema.json
+```
+
+### Por Qué Usar Tags de Git en Referencias
+
+**Las referencias a versiones específicas mediante tags de Git son permanentes e inmutables:**
+
+✓ **Ventajas:**
+- La URL `blob/v1.1.0/` siempre apuntará al mismo código exacto
+- Permite reproducibilidad científica perfecta
+- Facilita auditorías y verificación
+- Cada publicación puede referenciar la versión exacta que usó
+
+✗ **Evitar:**
+- URLs a ramas (`blob/main/`) - el código cambia con el tiempo
+- URLs sin versión - no garantizan reproducibilidad
+
+### Documentación Completa del Schema
+
+Para información detallada sobre el schema, validación y ejemplos:
+
+**[docs/SCHEMA_REFERENCE.md](SCHEMA_REFERENCE.md)** - Guía completa del JSON Schema
+
+Incluye:
+- Estructura detallada del schema
+- Ejemplos de validación en Python y JavaScript
+- Tabla de versiones del schema
+- Garantías de retrocompatibilidad
+- Casos de uso y ejemplos prácticos
+
+### Versionado del Schema
+
+El schema sigue la misma versión que el software Declarador:
+
+| Versión Software | Versión Schema | Tag Git | Fecha | Cambios Principales |
+|------------------|----------------|---------|-------|---------------------|
+| 1.1.0 | 1.1.0 | v1.1.0 | 2025-12-18 | Schema inicial de producción |
+
+**Regla de versionado del schema:**
+
+- Si cambia el schema de forma **incompatible** → Incrementar MAJOR del software
+- Si se agregan campos **opcionales** → Incrementar MINOR del software
+- Si solo hay correcciones/clarificaciones → Incrementar PATCH del software
+
+Esto garantiza que cualquier cambio en el schema se refleja en la versión del software.
+
+### Validación de Declaraciones contra el Schema
+
+Para validar que una declaración cumple con el schema v1.1.0:
+
+**Python:**
+```python
+import jsonschema
+import json
+import requests
+
+# Descargar schema desde tag específico
+schema_url = "https://raw.githubusercontent.com/escire/usoeticoia-declarador/v1.1.0/core/schema.json"
+schema = requests.get(schema_url).json()
+
+# Validar declaración
+with open('mi-declaracion.json') as f:
+    declaration = json.load(f)
+
+try:
+    jsonschema.validate(declaration, schema)
+    print("✓ Declaración válida según schema v1.1.0")
+except jsonschema.ValidationError as e:
+    print(f"✗ Error: {e.message}")
+```
+
+**JavaScript/Node.js:**
+```javascript
+const Ajv = require('ajv');
+const axios = require('axios');
+
+const schemaUrl = 'https://raw.githubusercontent.com/escire/usoeticoia-declarador/v1.1.0/core/schema.json';
+
+axios.get(schemaUrl).then(response => {
+  const ajv = new Ajv();
+  const validate = ajv.compile(response.data);
+
+  const isValid = validate(myDeclaration);
+  if (!isValid) {
+    console.error(validate.errors);
+  }
+});
+```
+
+### Citación Recomendada del Proyecto
+
+Si deseas citar el proyecto completo en tu publicación:
+
+**Formato general:**
+```
+Declarador: Sistema de Transparencia para Uso Académico de IA (2025).
+Versión 1.1.0. https://github.com/escire/usoeticoia-declarador
+```
+
+**Con DOI (cuando esté disponible):**
+```
+Autor(es). (2025). Declarador: Sistema de Transparencia para Uso
+Académico de IA [Software]. Versión 1.1.0.
+https://doi.org/10.XXXXX/declarador.v1.1.0
+```
+
+### Contacto para Colaboraciones Académicas
+
+Para colaboraciones en whitepapers, estudios o investigaciones que usen Declarador:
+
+- **Issues:** https://github.com/escire/usoeticoia-declarador/issues
+- **Discussions:** https://github.com/escire/usoeticoia-declarador/discussions
+
 ## Referencias
 
 - [Semantic Versioning](https://semver.org/lang/es/)
 - [Keep a Changelog](https://keepachangelog.com/es/1.0.0/)
 - [Conventional Commits](https://www.conventionalcommits.org/es/v1.0.0/)
 - [Git Tagging](https://git-scm.com/book/es/v2/Fundamentos-de-Git-Etiquetado)
+- [JSON Schema Specification](https://json-schema.org/)
+- [Software Citation Principles](https://force11.org/info/software-citation-principles-published-2016/)

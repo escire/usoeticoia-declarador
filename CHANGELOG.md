@@ -10,7 +10,12 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 ### Agregado
 - Sistema de versionado semántico con archivo VERSION
 - Script de automatización de versiones en `scripts/bump_version.py`
-- Documentación de flujo de versiones en `docs/VERSIONING.md`
+- Documentación completa de versionado en `docs/VERSIONING.md`
+- JSON Schema oficial en `core/schema.json` para validación de declaraciones
+- Documentación de referencia del schema en `docs/SCHEMA_REFERENCE.md`
+- Sección de versionado en README.md con comandos y referencias
+- Guía para citación del schema en whitepapers y publicaciones académicas
+- Reducción de niveles de revisión humana de 6 a 5 (0-5) para mayor claridad
 
 ## [1.1.0] - 2025-12-18
 
