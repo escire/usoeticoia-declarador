@@ -44,7 +44,7 @@
                 <h3 class="text-lg font-bold text-slate-900 mb-2">{% trans "Enlace permanente" %}</h3>
                 <p class="text-sm text-slate-600 mb-3">{% trans "Comparte este enlace para que otros puedan verificar esta declaración:" %}</p>
                 <div class="flex gap-2">
-                    <input type="text" id="permanentUrl" readonly value="{{ request.scheme }}://{{ request.get_host }}{% url 'view_declaration' declaration.declaration_id %}"
+                    <input type="text" id="permanentUrl" readonly value="{{ BASE_URL }}{% url 'view_declaration' declaration.declaration_id %}"
                         class="flex-1 px-4 py-2 bg-white border border-slate-300 rounded-lg font-mono text-sm text-slate-700">
                     <button id="copyUrlBtn" data-action="copy-url" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-semibold transition-colors flex items-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
