@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.utils.translation import get_language
+from django.urls import reverse
 from datetime import datetime
 import json as json_lib
 import traceback
@@ -131,6 +132,9 @@ def save_declaration(request):
         request_data = json_lib.loads(request.body)
         author_name = request_data.get('author_name', '').strip()
         author_email = request_data.get('author_email', '').strip()
+        author_orcid = request_data.get('author_orcid', '').strip()
+        author_orcid_verified = request_data.get('author_orcid_verified', False)
+        author_affiliation_ror_id = request_data.get('author_affiliation_ror_id', '').strip()
 
         # Validar que se hayan proporcionado nombre y email
         if not author_name or not author_email:
@@ -143,6 +147,9 @@ def save_declaration(request):
         declaration = Declaration(
             author_name=author_name,
             author_email=author_email,
+            author_orcid=author_orcid,
+            author_orcid_verified=author_orcid_verified,
+            author_affiliation_ror_id=author_affiliation_ror_id,
             ai_used=data.get('ai_used', True),
             selected_checklist_ids=data.get('selected_checklist_ids', []),
             usage_types=data.get('usage_types', []),
@@ -175,10 +182,14 @@ def save_declaration(request):
         request.session['declaration_saved'] = True
         request.session.modified = True
 
+        # Generar URL de la declaración
+        declaration_url = reverse('view_declaration', kwargs={'declaration_id': declaration.declaration_id})
+
         return JsonResponse({
             'success': True,
             'message': 'Declaración guardada exitosamente',
-            'declaration_id': declaration.declaration_id
+            'declaration_id': declaration.declaration_id,
+            'redirect_url': declaration_url
         })
 
     except Exception as e:

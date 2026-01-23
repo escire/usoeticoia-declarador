@@ -448,6 +448,127 @@ msgstr "No declaration was found with the hash or ID:"
 msgid "Verifica que hayas copiado correctamente el hash o ID de la declaración."
 msgstr "Verify that you have correctly copied the hash or ID of the declaration."
 
+# Search Page - New fields
+msgid "Busca una declaración por Hash, ID, nombre del autor o correo electrónico"
+msgstr "Search for a declaration by Hash, ID, author name or email"
+
+msgid "Hash o ID"
+msgstr "Hash or ID"
+
+msgid "Autor"
+msgstr "Author"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Hash: 16 caracteres | ID: 8 caracteres"
+msgstr "Hash: 16 characters | ID: 8 characters"
+
+msgid "Nombre del Autor"
+msgstr "Author Name"
+
+msgid "Ej: María García, Juan Pérez..."
+msgstr "Ex: John Doe, Jane Smith..."
+
+msgid "Busca declaraciones por el nombre del autor registrado"
+msgstr "Search declarations by registered author name"
+
+msgid "Correo Electrónico del Autor"
+msgstr "Author Email Address"
+
+msgid "Ej: autor@universidad.edu"
+msgstr "Ex: author@university.edu"
+
+msgid "Busca declaraciones por el email del autor registrado"
+msgstr "Search declarations by registered author email"
+
+msgid "Tipo"
+msgstr "Type"
+
+msgid "No se utilizó IA"
+msgstr "No AI was used"
+
+msgid "Licencia"
+msgstr "License"
+
+msgid "No se encontraron declaraciones"
+msgstr "No declarations found"
+
+msgid "Formato inválido. El hash debe tener 16 caracteres o el ID 8 caracteres alfanuméricos."
+msgstr "Invalid format. Hash must be 16 characters or ID 8 alphanumeric characters."
+
+msgid "Formato de correo electrónico inválido."
+msgstr "Invalid email format."
+
+msgid "El nombre debe tener al menos 2 caracteres."
+msgstr "Name must have at least 2 characters."
+
+msgid "Verifica que el correo esté escrito correctamente o intenta con otro término de búsqueda."
+msgstr "Verify that the email is spelled correctly or try another search term."
+
+msgid "Verifica que el nombre esté escrito correctamente o intenta con otro término de búsqueda."
+msgstr "Verify that the name is spelled correctly or try another search term."
+
+msgid "Opciones de Búsqueda"
+msgstr "Search Options"
+
+msgid "Buscar por Hash o ID:"
+msgstr "Search by Hash or ID:"
+
+msgid "Hash de Validación: 16 caracteres alfanuméricos"
+msgstr "Validation Hash: 16 alphanumeric characters"
+
+msgid "ID de Declaración: 8 caracteres alfanuméricos"
+msgstr "Declaration ID: 8 alphanumeric characters"
+
+msgid "Búsqueda exacta - devuelve una declaración específica"
+msgstr "Exact search - returns a specific declaration"
+
+msgid "Buscar por Autor:"
+msgstr "Search by Author:"
+
+msgid "Nombre parcial o completo del autor"
+msgstr "Partial or full author name"
+
+msgid "Puede devolver múltiples resultados"
+msgstr "May return multiple results"
+
+msgid "Solo funciona con declaraciones guardadas"
+msgstr "Only works with saved declarations"
+
+msgid "Buscar por Email:"
+msgstr "Search by Email:"
+
+msgid "Correo electrónico completo o parcial del autor"
+msgstr "Full or partial author email address"
+
+msgid "Correo electrónico completo del autor"
+msgstr "Full or partial author email address"
+
+msgid "Búsqueda flexible (no distingue mayúsculas)"
+msgstr "Flexible search (case insensitive)"
+
+msgid "Búsqueda exacta (no distingue mayúsculas)"
+msgstr "Flexible search (case insensitive)"
+
+msgid "Puede devolver múltiples declaraciones del mismo autor"
+msgstr "May return multiple declarations from the same author"
+
+msgid "Uso de IA"
+msgstr "AI Use"
+
+msgid "Sin IA"
+msgstr "No AI"
+
+msgid "Herramienta:"
+msgstr "Tool:"
+
+msgid "Fecha:"
+msgstr "Date:"
+
+msgid "Ver"
+msgstr "View"
+
 # Preview Panel
 msgid "preview_title"
 msgstr "Preview"
@@ -1288,3 +1409,110 @@ msgstr "Save declaration"
 
 msgid "Cancelar"
 msgstr "Cancel"
+
+# Step 4 - Save Modal - ORCID/ROR Fields
+msgid "opcional"
+msgstr "optional"
+
+msgid "Obtener ORCID"
+msgstr "Get ORCID"
+
+msgid "Institución"
+msgstr "Institution"
+
+msgid "Universidad Nacional, Google, NASA..."
+msgstr "National University, Google, NASA..."
+
+msgid "Escribe el nombre de tu institución. ROR sugerirá opciones verificadas."
+msgstr "Type your institution name. ROR will suggest verified options."
+
+# Declaration View
+msgid "Declaración"
+msgstr "Declaration"
+
+msgid "Volver a la búsqueda"
+msgstr "Back to search"
+
+msgid "Declaración Verificada"
+msgstr "Verified Declaration"
+
+msgid "Declaración de NO Uso de IA"
+msgstr "No AI Use Declaration"
+
+msgid "Declaración de Transparencia"
+msgstr "Transparency Declaration"
+
+msgid "Enlace permanente"
+msgstr "Permanent link"
+
+msgid "Comparte este enlace para que otros puedan verificar esta declaración:"
+msgstr "Share this link so others can verify this declaration:"
+
+msgid "Información del Autor"
+msgstr "Author Information"
+
+msgid "Institución (ROR)"
+msgstr "Institution (ROR)"
+
+msgid "Ver en ROR"
+msgstr "View on ROR"
+
+msgid "Fecha de Registro"
+msgstr "Registration Date"
+
+msgid "Metadatos de la Declaración"
+msgstr "Declaration Metadata"
+
+msgid "ID de Declaración"
+msgstr "Declaration ID"
+
+msgid "Hash de Validación"
+msgstr "Validation Hash"
+
+msgid "Herramienta IA Utilizada"
+msgstr "AI Tool Used"
+
+msgid "Versión"
+msgstr "Version"
+
+msgid "Proveedor"
+msgstr "Provider"
+
+msgid "Nivel de Revisión Humana"
+msgstr "Human Review Level"
+
+msgid "Nivel"
+msgstr "Level"
+
+msgid "Tipo de Declaración"
+msgstr "Declaration Type"
+
+msgid "No se utilizó Inteligencia Artificial"
+msgstr "No Artificial Intelligence was used"
+
+msgid "Licencia"
+msgstr "License"
+
+msgid "Fecha de Creación"
+msgstr "Creation Date"
+
+msgid "Texto Legible"
+msgstr "Readable Text"
+
+msgid "JSON Estructurado"
+msgstr "Structured JSON"
+
+msgid "Declaración en Formato Texto"
+msgstr "Text Format Declaration"
+
+msgid "Declaración en Formato JSON"
+msgstr "JSON Format Declaration"
+
+msgid "Copiado"
+msgstr "Copied"
+
+msgid "Buscar Otra Declaración"
+msgstr "Search Another Declaration"
+
+msgid "Crear Nueva Declaración"
+msgstr "Create New Declaration"

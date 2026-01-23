@@ -473,6 +473,172 @@ msgstr "Errore nella generazione dell'anteprima"
 msgid "preview_unavailable"
 msgstr "Anteprima non disponibile"
 
+# Search Page
+msgid "Verificar Declaración"
+msgstr "Verifica Dichiarazione"
+
+msgid "Busca una declaración por Hash, ID, nombre del autor o correo electrónico"
+msgstr "Cerca una dichiarazione per Hash, ID, nome dell'autore o email"
+
+msgid "Hash o ID"
+msgstr "Hash o ID"
+
+msgid "Autor"
+msgstr "Autore"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Hash de Validación o ID de Declaración"
+msgstr "Hash di Validazione o ID Dichiarazione"
+
+msgid "Ej: 1A2B3C4D5E6F7G8H o ABC12345"
+msgstr "Es: 1A2B3C4D5E6F7G8H o ABC12345"
+
+msgid "Hash: 16 caracteres | ID: 8 caracteres"
+msgstr "Hash: 16 caratteri | ID: 8 caratteri"
+
+msgid "Nombre del Autor"
+msgstr "Nome dell'Autore"
+
+msgid "Ej: María García, Juan Pérez..."
+msgstr "Es: Mario Rossi, Laura Bianchi..."
+
+msgid "Busca declaraciones por el nombre del autor registrado"
+msgstr "Cerca dichiarazioni per nome dell'autore registrato"
+
+msgid "Correo Electrónico del Autor"
+msgstr "Email dell'Autore"
+
+msgid "Ej: autor@universidad.edu"
+msgstr "Es: autore@universita.edu"
+
+msgid "Busca declaraciones por el email del autor registrado"
+msgstr "Cerca dichiarazioni per email dell'autore registrato"
+
+msgid "Buscar Declaración"
+msgstr "Cerca Dichiarazione"
+
+msgid "Declaración Verificada"
+msgstr "Dichiarazione Verificata"
+
+msgid "Esta declaración fue encontrada en nuestra base de datos y es auténtica."
+msgstr "Questa dichiarazione è stata trovata nel nostro database ed è autentica."
+
+msgid "Información de la Declaración"
+msgstr "Informazioni sulla Dichiarazione"
+
+msgid "ID de Declaración"
+msgstr "ID Dichiarazione"
+
+msgid "Hash de Validación"
+msgstr "Hash di Validazione"
+
+msgid "Herramienta IA"
+msgstr "Strumento IA"
+
+msgid "Tipo"
+msgstr "Tipo"
+
+msgid "No se utilizó IA"
+msgstr "IA non utilizzata"
+
+msgid "Fecha de Creación"
+msgstr "Data di Creazione"
+
+msgid "Licencia"
+msgstr "Licenza"
+
+msgid "Ver Declaración Completa"
+msgstr "Visualizza Dichiarazione Completa"
+
+msgid "No se encontraron declaraciones"
+msgstr "Nessuna dichiarazione trovata"
+
+msgid "Declaración No Encontrada"
+msgstr "Dichiarazione Non Trovata"
+
+msgid "Formato inválido. El hash debe tener 16 caracteres o el ID 8 caracteres alfanuméricos."
+msgstr "Formato non valido. L'hash deve avere 16 caratteri o l'ID 8 caratteri alfanumerici."
+
+msgid "Formato de correo electrónico inválido."
+msgstr "Formato email non valido."
+
+msgid "El nombre debe tener al menos 2 caracteres."
+msgstr "Il nome deve avere almeno 2 caratteri."
+
+msgid "Verifica que el correo esté escrito correctamente o intenta con otro término de búsqueda."
+msgstr "Verifica che l'email sia scritta correttamente o prova con un altro termine di ricerca."
+
+msgid "Verifica que el nombre esté escrito correctamente o intenta con otro término de búsqueda."
+msgstr "Verifica che il nome sia scritto correttamente o prova con un altro termine di ricerca."
+
+msgid "Verifica que hayas copiado correctamente el hash o ID de la declaración."
+msgstr "Verifica di aver copiato correttamente l'hash o l'ID della dichiarazione."
+
+msgid "No se encontró ninguna declaración con el hash o ID:"
+msgstr "Nessuna dichiarazione trovata con l'hash o l'ID:"
+
+msgid "Opciones de Búsqueda"
+msgstr "Opzioni di Ricerca"
+
+msgid "Buscar por Hash o ID:"
+msgstr "Cerca per Hash o ID:"
+
+msgid "Hash de Validación: 16 caracteres alfanuméricos"
+msgstr "Hash di Validazione: 16 caratteri alfanumerici"
+
+msgid "ID de Declaración: 8 caracteres alfanuméricos"
+msgstr "ID Dichiarazione: 8 caratteri alfanumerici"
+
+msgid "Búsqueda exacta - devuelve una declaración específica"
+msgstr "Ricerca esatta - restituisce una dichiarazione specifica"
+
+msgid "Buscar por Autor:"
+msgstr "Cerca per Autore:"
+
+msgid "Nombre parcial o completo del autor"
+msgstr "Nome parziale o completo dell'autore"
+
+msgid "Puede devolver múltiples resultados"
+msgstr "Può restituire più risultati"
+
+msgid "Solo funciona con declaraciones guardadas"
+msgstr "Funziona solo con dichiarazioni salvate"
+
+msgid "Buscar por Email:"
+msgstr "Cerca per Email:"
+
+msgid "Correo electrónico completo o parcial del autor"
+msgstr "Indirizzo email completo o parziale dell'autore"
+
+msgid "Correo electrónico completo del autor"
+msgstr "Indirizzo email completo o parziale dell'autore"
+
+msgid "Búsqueda flexible (no distingue mayúsculas)"
+msgstr "Ricerca flessibile (non sensibile alle maiuscole)"
+
+msgid "Búsqueda exacta (no distingue mayúsculas)"
+msgstr "Ricerca flessibile (non sensibile alle maiuscole)"
+
+msgid "Puede devolver múltiples declaraciones del mismo autor"
+msgstr "Può restituire più dichiarazioni dello stesso autore"
+
+msgid "Uso de IA"
+msgstr "Uso di IA"
+
+msgid "Sin IA"
+msgstr "Senza IA"
+
+msgid "Herramienta:"
+msgstr "Strumento:"
+
+msgid "Fecha:"
+msgstr "Data:"
+
+msgid "Ver"
+msgstr "Visualizza"
+
 # Signers Module
 msgid "Inicio"
 msgstr "Inizio"
@@ -748,3 +914,129 @@ msgstr "Salva dichiarazione"
 
 msgid "Cancelar"
 msgstr "Annulla"
+
+# Step 4 - Save Modal - ORCID/ROR Fields
+msgid "opcional"
+msgstr "opzionale"
+
+msgid "Obtener ORCID"
+msgstr "Ottieni ORCID"
+
+msgid "Institución"
+msgstr "Istituzione"
+
+msgid "Universidad Nacional, Google, NASA..."
+msgstr "Università Nazionale, Google, NASA..."
+
+msgid "Escribe el nombre de tu institución. ROR sugerirá opciones verificadas."
+msgstr "Scrivi il nome della tua istituzione. ROR suggerirà opzioni verificate."
+
+# Step 4 - Save Declaration
+msgid "¿Deseas guardar esta declaración?"
+msgstr "Vuoi salvare questa dichiarazione?"
+
+msgid "Puedes guardar esta declaración en nuestra base de datos para verificación futura. Esto es opcional y permitirá que otros puedan validar tu declaración usando el hash o ID."
+msgstr "Puoi salvare questa dichiarazione nel nostro database per una verifica futura. Questo è opzionale e permetterà ad altri di validare la tua dichiarazione usando l'hash o l'ID."
+
+msgid "Sí, guardar declaración"
+msgstr "Sì, salva dichiarazione"
+
+msgid "No, solo descargar"
+msgstr "No, solo scarica"
+
+msgid "Declaración guardada exitosamente en la base de datos"
+msgstr "Dichiarazione salvata con successo nel database"
+
+msgid "¿Cambiaste de opinión? Haz clic aquí para guardar la declaración"
+msgstr "Hai cambiato idea? Clicca qui per salvare la dichiarazione"
+
+# Declaration View
+msgid "Declaración"
+msgstr "Dichiarazione"
+
+msgid "Volver a la búsqueda"
+msgstr "Torna alla ricerca"
+
+msgid "Declaración Verificada"
+msgstr "Dichiarazione Verificata"
+
+msgid "Declaración de NO Uso de IA"
+msgstr "Dichiarazione di NON Uso di IA"
+
+msgid "Declaración de Transparencia"
+msgstr "Dichiarazione di Trasparenza"
+
+msgid "Enlace permanente"
+msgstr "Link permanente"
+
+msgid "Comparte este enlace para que otros puedan verificar esta declaración:"
+msgstr "Condividi questo link affinché altri possano verificare questa dichiarazione:"
+
+msgid "Información del Autor"
+msgstr "Informazioni sull'Autore"
+
+msgid "Institución (ROR)"
+msgstr "Istituzione (ROR)"
+
+msgid "Ver en ROR"
+msgstr "Vedi su ROR"
+
+msgid "Fecha de Registro"
+msgstr "Data di Registrazione"
+
+msgid "Metadatos de la Declaración"
+msgstr "Metadati della Dichiarazione"
+
+msgid "ID de Declaración"
+msgstr "ID Dichiarazione"
+
+msgid "Hash de Validación"
+msgstr "Hash di Validazione"
+
+msgid "Herramienta IA Utilizada"
+msgstr "Strumento IA Utilizzato"
+
+msgid "Versión"
+msgstr "Versione"
+
+msgid "Proveedor"
+msgstr "Fornitore"
+
+msgid "Nivel de Revisión Humana"
+msgstr "Livello di Revisione Umana"
+
+msgid "Nivel"
+msgstr "Livello"
+
+msgid "Tipo de Declaración"
+msgstr "Tipo di Dichiarazione"
+
+msgid "No se utilizó Inteligencia Artificial"
+msgstr "Non è stata utilizzata Intelligenza Artificiale"
+
+msgid "Licencia"
+msgstr "Licenza"
+
+msgid "Fecha de Creación"
+msgstr "Data di Creazione"
+
+msgid "Texto Legible"
+msgstr "Testo Leggibile"
+
+msgid "JSON Estructurado"
+msgstr "JSON Strutturato"
+
+msgid "Declaración en Formato Texto"
+msgstr "Dichiarazione in Formato Testo"
+
+msgid "Declaración en Formato JSON"
+msgstr "Dichiarazione in Formato JSON"
+
+msgid "Copiado"
+msgstr "Copiato"
+
+msgid "Buscar Otra Declaración"
+msgstr "Cerca Un'altra Dichiarazione"
+
+msgid "Crear Nueva Declaración"
+msgstr "Crea Nuova Dichiarazione"
