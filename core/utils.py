@@ -66,7 +66,38 @@ def get_license_label(license_value, lang='es'):
 def generate_declaration_text(declaration, hash_value=None, lang='es'):
     """Generate human-readable declaration text"""
 
-    # Parse usage types
+    # Check if AI was used
+    if not declaration.ai_used:
+        # Generate declaration for NO AI usage
+        text = f"{get_translation('decl_title_no_ai', lang)}\n"
+        text += "═" * 65 + "\n\n"
+        text += f"{get_translation('decl_no_ai_statement', lang)}\n\n"
+        text += f"{get_translation('decl_no_ai_description', lang)}\n"
+
+        # Hash validation (goes before author info)
+        if hash_value:
+            text += "\n" + "═" * 65 + "\n"
+            text += f"{get_translation('decl_id_registry', lang)}: {declaration.declaration_id}\n"
+            text += f"{get_translation('decl_hash_validation', lang)}: {hash_value}\n"
+
+        # Author information (after hash - metadata of saved declaration)
+        if hasattr(declaration, 'author_name') and declaration.author_name:
+            text += "\n" + "-" * 65 + "\n"
+            text += f"{get_translation('decl_registered_declaration', lang)}\n\n"
+            text += f"{get_translation('decl_author', lang)}: {declaration.author_name}\n"
+            if hasattr(declaration, 'author_email') and declaration.author_email:
+                text += f"{get_translation('decl_author_email', lang)}: {declaration.author_email}\n"
+            if hasattr(declaration, 'author_orcid') and declaration.author_orcid:
+                orcid_status = f" ({get_translation('decl_verified', lang)})" if getattr(declaration, 'author_orcid_verified', False) else ""
+                text += f"ORCID: {declaration.author_orcid}{orcid_status}\n"
+            if hasattr(declaration, 'author_affiliation_ror_id') and declaration.author_affiliation_ror_id:
+                text += f"{get_translation('decl_institution', lang)}: {declaration.author_affiliation_ror_id}\n"
+            if hasattr(declaration, 'created_at') and declaration.created_at:
+                text += f"{get_translation('decl_registration_date', lang)}: {declaration.created_at.strftime('%d/%m/%Y %H:%M')} UTC\n"
+
+        return text
+
+    # Parse usage types (for AI declarations)
     usage_labels = []
     for ut in declaration.usage_types:
         usage_labels.append(get_usage_label(ut, declaration.custom_usage_type, lang))
@@ -177,11 +208,26 @@ def generate_declaration_text(declaration, hash_value=None, lang='es'):
         text += f"\n{get_translation('decl_section_7', lang)}\n"
         text += f"   • {license_label}\n"
 
-    # Hash validation
+    # Hash validation (goes before author info - part of declaration body)
     if hash_value:
-        text += "\n" + "-" * 65 + "\n"
+        text += "\n" + "═" * 65 + "\n"
         text += f"{get_translation('decl_id_registry', lang)}: {declaration.declaration_id}\n"
         text += f"{get_translation('decl_hash_validation', lang)}: {hash_value}\n"
+
+    # Author information (after hash - metadata of saved declaration)
+    if hasattr(declaration, 'author_name') and declaration.author_name:
+        text += "\n" + "-" * 65 + "\n"
+        text += f"{get_translation('decl_registered_declaration', lang)}\n\n"
+        text += f"{get_translation('decl_author', lang)}: {declaration.author_name}\n"
+        if hasattr(declaration, 'author_email') and declaration.author_email:
+            text += f"{get_translation('decl_author_email', lang)}: {declaration.author_email}\n"
+        if hasattr(declaration, 'author_orcid') and declaration.author_orcid:
+            orcid_status = f" ({get_translation('decl_verified', lang)})" if getattr(declaration, 'author_orcid_verified', False) else ""
+            text += f"ORCID: {declaration.author_orcid}{orcid_status}\n"
+        if hasattr(declaration, 'author_affiliation_ror_id') and declaration.author_affiliation_ror_id:
+            text += f"{get_translation('decl_institution', lang)}: {declaration.author_affiliation_ror_id}\n"
+        if hasattr(declaration, 'created_at') and declaration.created_at:
+            text += f"{get_translation('decl_registration_date', lang)}: {declaration.created_at.strftime('%d/%m/%Y %H:%M')} UTC\n"
 
     return text
 
@@ -189,7 +235,25 @@ def generate_declaration_text(declaration, hash_value=None, lang='es'):
 def generate_declaration_json(declaration, hash_value=None, lang='es'):
     """Generate JSON declaration"""
 
-    # Parse usage types
+    # Check if AI was used
+    if not declaration.ai_used:
+        # Generate JSON for NO AI usage
+        payload = {
+            'declarationType': 'academic-no-ai-declaration',
+            'version': '4.0.0',
+            'generatedAt': declaration.created_at.isoformat() if hasattr(declaration.created_at, 'isoformat') else None,
+            'id': declaration.declaration_id,
+            'validationHash': hash_value or 'pending',
+            'aiUsed': False,
+            'statement': get_translation('decl_no_ai_statement', lang),
+            'author': {
+                'name': declaration.author_name if hasattr(declaration, 'author_name') else None,
+                'email': declaration.author_email if hasattr(declaration, 'author_email') else None
+            }
+        }
+        return json.dumps(payload, ensure_ascii=False, indent=2)
+
+    # Parse usage types (for AI declarations)
     usage_labels = []
     for ut in declaration.usage_types:
         usage_labels.append(get_usage_label(ut, declaration.custom_usage_type, lang))
@@ -230,6 +294,17 @@ def generate_declaration_json(declaration, hash_value=None, lang='es'):
     # Valid prompts
     valid_prompts = [p['description'] for p in declaration.prompts if p.get('description', '').strip()]
 
+    # Build author info if available
+    author_info = None
+    if hasattr(declaration, 'author_name') and declaration.author_name:
+        author_info = {
+            'name': declaration.author_name,
+            'email': declaration.author_email if hasattr(declaration, 'author_email') else None,
+            'orcid': declaration.author_orcid if hasattr(declaration, 'author_orcid') and declaration.author_orcid else None,
+            'orcidVerified': declaration.author_orcid_verified if hasattr(declaration, 'author_orcid_verified') else False,
+            'affiliationRorId': declaration.author_affiliation_ror_id if hasattr(declaration, 'author_affiliation_ror_id') and declaration.author_affiliation_ror_id else None
+        }
+
     payload = {
         'declarationType': 'academic-ai-transparency',
         'schemaVersion': '1.0.0',
@@ -239,6 +314,7 @@ def generate_declaration_json(declaration, hash_value=None, lang='es'):
         'id': declaration.declaration_id,
         'validationHash': hash_value or 'pending',
         'license': declaration.license if declaration.license != 'None' else None,
+        'author': author_info,
         'traceability': {
             'diagnosticIds': declaration.selected_checklist_ids
         },

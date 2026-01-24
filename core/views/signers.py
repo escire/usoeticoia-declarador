@@ -130,6 +130,7 @@ def signer_verify(request, hash_short):
 
         context = {
             'signer': signer,
+            'verification_url': signer.get_verification_url(request),
             'glossary': get_translated_glossary(current_lang),
         }
         return render(request, 'core/signer_verify.html', context)
