@@ -42,6 +42,9 @@ from .utils import (
     privacy_policy,
 )
 
+# API externa
+from .external_api import create_declaration, get_declaration
+
 __all__ = [
     # Funciones auxiliares
     'get_session_data',
@@ -68,4 +71,7 @@ __all__ = [
     'preview_declaration',
     'save_declaration',
     'privacy_policy',
+    # API externa
+    'create_declaration',
+    'get_declaration',
 ]

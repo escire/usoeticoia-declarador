@@ -166,6 +166,10 @@ GEMINI_API_KEY = config('GEMINI_API_KEY', default=None)
 # Ejemplo: 'https://declarador.io' o 'https://usoeticoia.org'
 SITE_DOMAIN = config('SITE_DOMAIN', default=None)
 
+# URL del panel de administración (cambiar en producción para evitar ataques)
+# Ejemplo: 'gestion-declarador/' o cualquier ruta no obvia
+ADMIN_URL = config('ADMIN_URL', default='admin/')
+
 # reCAPTCHA v2 Configuration
 # Obtén tus keys en: https://www.google.com/recaptcha/admin
 RECAPTCHA_SITE_KEY = config('RECAPTCHA_SITE_KEY', default='')
