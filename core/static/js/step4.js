@@ -399,7 +399,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Deshabilitar botón mientras se procesa
         modalSaveBtn.disabled = true;
-        modalSaveBtnText.innerText = 'Guardando...';
+        modalSaveBtnText.innerText = 'Vinculando...';
         modalSaveBtn.classList.add('opacity-75', 'cursor-not-allowed');
         modalErrorMessage.classList.add('hidden');
 
@@ -417,7 +417,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const authorAffiliationRorId = document.getElementById('author_affiliation_ror_id')?.value.trim() || '';
             const authorOrcidVerified = orcidState.status === 'valid';
 
-            const response = await fetch(langPrefix + 'api/guardar/', {
+            const response = await fetch(langPrefix + 'api/vincular/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -447,7 +447,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Mostrar mensaje de éxito brevemente
                 const saveMessage = document.getElementById('saveMessage');
-                saveMessage.querySelector('p').innerText = '✓ ' + data.message + ' - Redirigiendo...';
+                saveMessage.querySelector('p').innerText = '✓ Autor vinculado — Redirigiendo...';
                 saveMessage.classList.remove('hidden');
                 saveMessage.classList.add('border-emerald-300', 'bg-emerald-50');
 
@@ -477,7 +477,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Rehabilitar botón
             modalSaveBtn.disabled = false;
-            modalSaveBtnText.innerText = 'Reintentar';
+            modalSaveBtnText.innerText = 'Reintentar vinculación';
             modalSaveBtn.classList.remove('opacity-75', 'cursor-not-allowed');
         }
     });

@@ -38,7 +38,7 @@ from .signers import (
 from .utils import (
     load_preset,
     preview_declaration,
-    save_declaration,
+    link_declaration,
     privacy_policy,
 )
 
@@ -69,7 +69,7 @@ __all__ = [
     # Auxiliares
     'load_preset',
     'preview_declaration',
-    'save_declaration',
+    'link_declaration',
     'privacy_policy',
     # API externa
     'create_declaration',

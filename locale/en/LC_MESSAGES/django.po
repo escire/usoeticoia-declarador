@@ -1125,6 +1125,34 @@ msgstr "Declaration saved successfully in the database"
 msgid "¿Cambiaste de opinión? Haz clic aquí para guardar la declaración"
 msgstr "Changed your mind? Click here to save the declaration"
 
+# Step 4 - Vincular / Link Identity
+msgid "Declaración registrada"
+msgstr "Declaration Registered"
+
+msgid "Tu declaración ya está guardada y puede verificarse con el ID y hash. Opcionalmente, puedes vincular tu identidad como autor para que quede asociada públicamente."
+msgstr "Your declaration has been saved and can be verified with the ID and hash. Optionally, you can link your identity as author so it is publicly associated."
+
+msgid "Vincular mi identidad"
+msgstr "Link my identity"
+
+msgid "No vincular"
+msgstr "Don't link"
+
+msgid "Declaración registrada e identidad vinculada exitosamente"
+msgstr "Declaration registered and identity successfully linked"
+
+msgid "Vincular identidad"
+msgstr "Link Identity"
+
+msgid "Tu declaración ya está guardada. Proporciona tus datos para asociar tu identidad como autor. Esto es opcional y solo se usará para identificación pública."
+msgstr "Your declaration is already saved. Provide your data to associate your identity as author. This is optional and will only be used for public identification."
+
+msgid "¿Cambiaste de opinión? Haz clic aquí para vincular tu identidad"
+msgstr "Changed your mind? Click here to link your identity"
+
+msgid "Vincular declaración"
+msgstr "Link declaration"
+
 msgid "Solo letras mayúsculas y números, entre 8 y 20 caracteres"
 msgstr "Only uppercase letters and numbers, between 8 and 20 characters"
 
