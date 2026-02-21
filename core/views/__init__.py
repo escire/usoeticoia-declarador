@@ -43,7 +43,7 @@ from .utils import (
 )
 
 # API externa
-from .external_api import create_declaration, get_declaration
+from .external_api import create_declaration, get_declaration, get_options
 
 __all__ = [
     # Funciones auxiliares
@@ -74,4 +74,5 @@ __all__ = [
     # API externa
     'create_declaration',
     'get_declaration',
+    'get_options',
 ]

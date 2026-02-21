@@ -31,7 +31,7 @@ from core.views import (
     # Utils
     load_preset, preview_declaration, link_declaration, privacy_policy,
     # API externa
-    create_declaration, get_declaration,
+    create_declaration, get_declaration, get_options,
 )
 
 # Non-translatable URLs (admin, language switcher, API externa)
@@ -41,6 +41,7 @@ urlpatterns = [
     # API externa — sin prefijo de idioma, autenticación por API key
     path('api/v1/declaracion/', create_declaration, name='api_create_declaration'),
     path('api/v1/declaracion/<str:identifier>/', get_declaration, name='api_get_declaration'),
+    path('api/v1/opciones/', get_options, name='api_get_options'),
 ]
 
 # Translatable URLs with language prefix

@@ -14,9 +14,10 @@ Guía para sistemas externos que quieran crear declaraciones de transparencia IA
 2. [Autenticación](#2-autenticación)
 3. [Crear una declaración](#3-crear-una-declaración-post)
 4. [Recuperar una declaración existente](#4-recuperar-una-declaración-existente-get)
-5. [Referencia de campos](#5-referencia-de-campos) — [5.1 Comunes](#51-campos-comunes-todos-los-casos) · [5.2 Con IA](#52-campos-para-declaraciones-con-ia-ai_used-true) · [5.3 usage_types](#53-valores-válidos-para-usage_types) · [5.4 content_use_modes](#54-valores-válidos-para-content_use_modes) · [5.5 human_review.level](#55-niveles-de-revisión-humana-human_reviewlevel) · [5.6 license](#56-valores-válidos-para-license) · [5.7 selected_checklist_ids](#57-valores-válidos-para-selected_checklist_ids)
-6. [Ejemplos completos](#6-ejemplos-completos)
-7. [Errores y códigos de respuesta](#7-errores-y-códigos-de-respuesta)
+5. [Consultar opciones disponibles](#5-consultar-opciones-disponibles-get)
+6. [Referencia de campos](#6-referencia-de-campos) — [6.1 Comunes](#61-campos-comunes-todos-los-casos) · [6.2 Con IA](#62-campos-para-declaraciones-con-ia-ai_used-true) · [6.3 usage_types](#63-valores-válidos-para-usage_types) · [6.4 content_use_modes](#64-valores-válidos-para-content_use_modes) · [6.5 human_review.level](#65-niveles-de-revisión-humana-human_reviewlevel) · [6.6 license](#66-valores-válidos-para-license) · [6.7 selected_checklist_ids](#67-valores-válidos-para-selected_checklist_ids)
+7. [Ejemplos completos](#7-ejemplos-completos)
+8. [Errores y códigos de respuesta](#8-errores-y-códigos-de-respuesta)
 
 ---
 
@@ -152,9 +153,69 @@ curl -H "Authorization: Bearer <api_key>" \
 
 ---
 
-## 5. Referencia de campos
+## 5. Consultar opciones disponibles `GET`
 
-### 5.1 Campos comunes (todos los casos)
+```
+GET /api/v1/opciones/?lang=es
+```
+
+Devuelve **todos los valores válidos** para los campos seleccionables, en el idioma solicitado. Úsalo para construir tu integración sin hardcodear strings — si en el futuro se agregan nuevos tipos de uso o niveles de revisión, tu sistema los verá automáticamente al consultar este endpoint.
+
+### Headers requeridos
+
+| Header | Valor |
+|--------|-------|
+| `Authorization` | `Bearer <api_key>` |
+
+### Parámetro query opcional
+
+| Parámetro | Valores | Default |
+|-----------|---------|---------|
+| `lang` | `es` `en` `pt` `it` | `es` |
+
+### Respuesta exitosa `200 OK`
+
+```json
+{
+  "success": true,
+  "lang": "es",
+  "usage_types": [
+    {"id": "draft", "label": "Generación de Borrador", "hint": "...", "examples": ["..."]},
+    {"id": "writing-support", "label": "Asistencia de Estilo y Redacción", "hint": "...", "examples": []},
+    ...
+  ],
+  "content_use_modes": [
+    {"id": 0, "label": "Incorporado tal cual (Verbatim)"},
+    {"id": 1, "label": "Editado parcialmente (ajustes menores)"},
+    {"id": 2, "label": "Reescrito sustancialmente"},
+    {"id": 3, "label": "Usado solo como inspiración/referencia"},
+    {"id": 4, "label": "Sintetizado con otras fuentes"},
+    {"id": 5, "label": "Otro"}
+  ],
+  "human_review_levels": [
+    {"id": 0, "label": "Nivel 0: Sin Revisión", "description": "..."},
+    ...
+    {"id": 6, "label": "Nivel 6: Revisión Crítica y Ética", "description": "..."}
+  ],
+  "checklist": [
+    {"id": "q1", "question": "¿Generó texto nuevo...?", "suggests": "draft"},
+    ...
+  ]
+}
+```
+
+### Ejemplo rápido
+
+```bash
+curl -H "Authorization: Bearer <api_key>" \
+  "https://declarador.usoeticoia.org/api/v1/opciones/?lang=en"
+```
+
+---
+
+## 6. Referencia de campos
+
+### 6.1 Campos comunes (todos los casos)
 
 
 | Campo                       | Tipo    | Requerido | Descripción                                                                                                                                           |
@@ -170,7 +231,7 @@ curl -H "Authorization: Bearer <api_key>" \
 
 ---
 
-### 5.2 Campos para declaraciones con IA (`ai_used: true`)
+### 6.2 Campos para declaraciones con IA (`ai_used: true`)
 
 
 | Campo                        | Tipo    | Requerido   | Descripción                                                 |
@@ -188,19 +249,19 @@ curl -H "Authorization: Bearer <api_key>" \
 | `prompts[].id`               | string  | Sí          | Identificador del prompt (p.ej. `"1"`, `"2"`)               |
 | `prompts[].description`      | string  | Sí          | Texto del prompt                                            |
 | `content_use_modes`          | array   | No          | Modos de integración del contenido (ver tabla abajo)        |
-| `custom_content_use_mode`    | string  | Condicional | Descripción si `"Otro"` está en `content_use_modes`         |
+| `custom_content_use_mode`    | string  | Condicional | Descripción si el modo `5` (Otro) está en `content_use_modes` |
 | `content_use_context`        | string  | No          | Contexto adicional sobre la integración del contenido       |
 | `human_review`               | object  | No          | Información de revisión humana                              |
 | `human_review.level`         | integer | No          | Nivel de revisión 0–6 (default: `0`)                        |
 | `human_review.reviewer_name` | string  | No          | Nombre del revisor (si level > 0)                           |
 | `human_review.reviewer_role` | string  | No          | Rol del revisor (p.ej. `"Director de tesis"`)               |
-| `selected_checklist_ids`     | array   | No          | IDs de preguntas diagnósticas respondidas (ver sección 5.7) |
+| `selected_checklist_ids`     | array   | No          | IDs de preguntas diagnósticas respondidas (ver sección 6.7) |
 | `license`                    | string  | No          | Licencia del trabajo (ver tabla abajo)                      |
 
 
 ---
 
-### 5.3 Valores válidos para `usage_types`
+### 6.3 Valores válidos para `usage_types`
 
 
 | Valor               | Descripción                                                          |
@@ -220,22 +281,23 @@ Se pueden combinar varios: `["draft", "writing-support"]`
 
 ---
 
-### 5.4 Valores válidos para `content_use_modes`
+### 6.4 Valores válidos para `content_use_modes`
 
+Envía **IDs numéricos** (0–5). Las etiquetas en cada idioma las obtienes con el endpoint `/api/v1/opciones/`.
 
-| Valor (exacto)                             | Descripción                                    |
-| ------------------------------------------ | ---------------------------------------------- |
-| `"Incorporado tal cual (Verbatim)"`        | Texto de la IA sin modificar                   |
-| `"Editado parcialmente (ajustes menores)"` | Ajustes menores sobre el texto de la IA        |
-| `"Reescrito sustancialmente"`              | El contenido fue profundamente modificado      |
-| `"Usado solo como inspiración/referencia"` | Solo se tomaron ideas, no texto                |
-| `"Sintetizado con otras fuentes"`          | Combinado con otras fuentes humanas            |
-| `"Otro"`                                   | Otro modo (requiere `custom_content_use_mode`) |
+| ID | Descripción (es) |
+|----|-----------------|
+| `0` | Incorporado tal cual (Verbatim) |
+| `1` | Editado parcialmente (ajustes menores) |
+| `2` | Reescrito sustancialmente |
+| `3` | Usado solo como inspiración/referencia |
+| `4` | Sintetizado con otras fuentes |
+| `5` | Otro (requiere `custom_content_use_mode`) |
 
 
 ---
 
-### 5.5 Niveles de revisión humana (`human_review.level`)
+### 6.5 Niveles de revisión humana (`human_review.level`)
 
 
 | Nivel | Etiqueta                 | Descripción                                                                       |
@@ -251,7 +313,7 @@ Se pueden combinar varios: `["draft", "writing-support"]`
 
 ---
 
-### 5.6 Valores válidos para `license`
+### 6.6 Valores válidos para `license`
 
 
 | Valor               | Descripción                                            |
@@ -269,7 +331,7 @@ Se pueden combinar varios: `["draft", "writing-support"]`
 
 ---
 
-### 5.7 Valores válidos para `selected_checklist_ids`
+### 6.7 Valores válidos para `selected_checklist_ids`
 
 Campo opcional. Representa las preguntas diagnósticas que el sistema respondió afirmativamente para detectar el tipo de uso de IA. Si se omite, la declaración muestra "Selección manual directa", indicando que los `usage_types` fueron elegidos directamente.
 
@@ -291,7 +353,16 @@ Los IDs son independientes de los `usage_types` — puedes enviar ambos con dist
 
 ---
 
-## 6. Ejemplos completos
+## 7. Ejemplos completos
+
+### Ejemplo 0: Consultar opciones disponibles
+
+```bash
+curl -H "Authorization: Bearer <tu_api_key>" \
+  "https://declarador.usoeticoia.org/api/v1/opciones/?lang=es"
+```
+
+---
 
 ### Ejemplo 1: Declaración con IA (caso típico)
 
@@ -315,7 +386,7 @@ curl -X POST https://declarador.usoeticoia.org/api/v1/declaracion/ \
       {"id": "1", "description": "Escribe una introducción académica sobre el impacto del cambio climático en los ecosistemas mediterráneos"},
       {"id": "2", "description": "Mejora el estilo y la coherencia del siguiente párrafo manteniendo el significado original"}
     ],
-    "content_use_modes": ["Editado parcialmente (ajustes menores)"],
+    "content_use_modes": [1],
     "human_review": {
       "level": 4,
       "reviewer_name": "Dr. Ana López",
@@ -427,7 +498,7 @@ curl -X POST https://declarador.usoeticoia.org/api/v1/declaracion/ \
       {"id": "1", "description": "Write a Python script to clean and normalize survey responses from a CSV file"},
       {"id": "2", "description": "Analyze the correlation between variables X and Y and suggest visualizations"}
     ],
-    "content_use_modes": ["Reescrito sustancialmente", "Incorporado tal cual (Verbatim)"],
+    "content_use_modes": [2, 0],
     "content_use_context": "Code was reviewed and adapted; analysis output was included verbatim in appendix",
     "human_review": {"level": 5, "reviewer_role": "Thesis committee"},
     "license": "CC BY-SA 4.0",
@@ -592,7 +663,7 @@ echo 'Hash: ' . $resultado['validation_hash'] . PHP_EOL;
 
 ---
 
-## 7. Errores y códigos de respuesta
+## 8. Errores y códigos de respuesta
 
 ### `401 Unauthorized` — API key inválida
 
@@ -624,7 +695,7 @@ Causas: header `Authorization` ausente, key incorrecta, o key desactivada por el
 
 ### `405 Method Not Allowed`
 
-El endpoint solo acepta `POST`. No uses `GET`.
+Cada endpoint acepta únicamente su método correspondiente: `POST /api/v1/declaracion/` solo acepta POST; los endpoints de consulta (`GET /api/v1/declaracion/<id>/` y `GET /api/v1/opciones/`) solo aceptan GET.
 
 ---
 

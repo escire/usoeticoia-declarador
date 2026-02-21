@@ -16,6 +16,33 @@ import re
 
 from ..models import Declaration, APIKey
 from ..utils import generate_declaration_text, generate_declaration_json, compute_hash
+from ..constants import USAGE_TYPES, HUMAN_REVIEW_LEVELS, HELP_CHECKLIST
+from ..translations import get_translated_usage_types, get_translated_review_levels, get_translated_checklist, get_translated_content_modes
+
+
+# Mapeo de IDs numéricos para content_use_modes (estables entre versiones y lenguajes)
+CONTENT_MODE_IDS = [
+    'Incorporado tal cual (Verbatim)',
+    'Editado parcialmente (ajustes menores)',
+    'Reescrito sustancialmente',
+    'Usado solo como inspiración/referencia',
+    'Sintetizado con otras fuentes',
+    'Otro',
+]
+
+
+def _resolve_content_modes(raw_modes: list) -> list:
+    """
+    Acepta IDs numéricos (0-5) o strings legacy en español.
+    Devuelve siempre la lista de strings internos en español.
+    """
+    resolved = []
+    for mode in raw_modes:
+        if isinstance(mode, int) and 0 <= mode <= 5:
+            resolved.append(CONTENT_MODE_IDS[mode])
+        elif isinstance(mode, str):
+            resolved.append(mode)  # compatibilidad retroactiva
+    return resolved
 
 
 def _normalize_orcid(raw: str) -> str:
@@ -176,7 +203,7 @@ def create_declaration(request):
             ai_tool_date_year=date_year,
             specific_purpose=specific_purpose,
             prompts=prompts,
-            content_use_modes=body.get('content_use_modes', []),
+            content_use_modes=_resolve_content_modes(body.get('content_use_modes', [])),
             custom_content_use_mode=body.get('custom_content_use_mode', '').strip(),
             content_use_context=body.get('content_use_context', '').strip(),
             human_review_level=review_level,
@@ -290,3 +317,76 @@ def get_declaration(request, identifier):
     declaration_json = json.loads(declaration_json_str)
 
     return JsonResponse(_declaration_response(declaration, hash_value, declaration_text, declaration_json, request))
+
+
+# ---------------------------------------------------------------------------
+# GET /api/v1/opciones/
+# ---------------------------------------------------------------------------
+
+@csrf_exempt
+@require_api_key
+def get_options(request):
+    """
+    Devuelve todas las opciones seleccionables de la API en el idioma solicitado.
+
+    GET /api/v1/opciones/?lang=es
+
+    Parámetros query:
+      - lang: "es" | "en" | "pt" | "it"  (default: "es")
+
+    Respuesta exitosa (200):
+      {
+        "usage_types": [{"id": "draft", "label": "...", "hint": "...", "examples": [...]}, ...],
+        "content_use_modes": [{"id": 0, "label": "..."}, ...],
+        "human_review_levels": [{"id": 0, "label": "...", "description": "..."}, ...],
+        "checklist": [{"id": "q1", "question": "...", "suggests": "draft"}, ...]
+      }
+    """
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Método no permitido'}, status=405)
+
+    lang = request.GET.get('lang', 'es')
+    if lang not in ('es', 'en', 'pt', 'it'):
+        lang = 'es'
+
+    usage_types = [
+        {
+            'id': ut['value'],
+            'label': ut['label'],
+            'hint': ut.get('hint', ''),
+            'examples': ut.get('examples', []),
+        }
+        for ut in get_translated_usage_types(lang)
+    ]
+
+    content_use_modes = [
+        {'id': i, 'label': label}
+        for i, label in enumerate(get_translated_content_modes(lang))
+    ]
+
+    review_levels = [
+        {
+            'id': rl['level'],
+            'label': rl['label'],
+            'description': rl['description'],
+        }
+        for rl in get_translated_review_levels(lang)
+    ]
+
+    checklist = [
+        {
+            'id': item['id'],
+            'question': item['q'],
+            'suggests': item['suggests'],
+        }
+        for item in get_translated_checklist(lang)
+    ]
+
+    return JsonResponse({
+        'success': True,
+        'lang': lang,
+        'usage_types': usage_types,
+        'content_use_modes': content_use_modes,
+        'human_review_levels': review_levels,
+        'checklist': checklist,
+    })
