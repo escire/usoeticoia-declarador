@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.i18n import i18n_patterns
 from django.views.i18n import set_language
+from django.conf import settings
 from core.views import (
     # Wizard
     home, step1_identification, step2_usage_type, step3_details, step4_output,
@@ -28,13 +29,19 @@ from core.views import (
     # Signers
     signer_register, signer_create, signer_verify, signers_list,
     # Utils
-    load_preset, preview_declaration, save_declaration, privacy_policy,
+    load_preset, preview_declaration, link_declaration, privacy_policy,
+    # API externa
+    create_declaration, get_declaration, get_options,
 )
 
-# Non-translatable URLs (admin, language switcher)
+# Non-translatable URLs (admin, language switcher, API externa)
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path(settings.ADMIN_URL, admin.site.urls),
     path('i18n/setlang/', set_language, name='set_language'),
+    # API externa — sin prefijo de idioma, autenticación por API key
+    path('api/v1/declaracion/', create_declaration, name='api_create_declaration'),
+    path('api/v1/declaracion/<str:identifier>/', get_declaration, name='api_get_declaration'),
+    path('api/v1/opciones/', get_options, name='api_get_options'),
 ]
 
 # Translatable URLs with language prefix
@@ -54,8 +61,8 @@ urlpatterns += i18n_patterns(
     path('privacidad/', privacy_policy, name='privacy'),
     # Vista previa en tiempo real
     path('api/preview/', preview_declaration, name='preview_declaration'),
-    # Guardar declaración (opcional)
-    path('api/guardar/', save_declaration, name='save_declaration'),
+    # Vincular autor a declaración ya guardada
+    path('api/vincular/', link_declaration, name='link_declaration'),
     # Módulo de firmantes
     path('firmantes/', signers_list, name='signers_list'),
     path('firmar/', signer_register, name='signer_register'),

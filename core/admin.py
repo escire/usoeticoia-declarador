@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Declaration, Signer
+from .models import Declaration, Signer, APIKey
 
 
 @admin.register(Declaration)
@@ -9,6 +9,30 @@ class DeclarationAdmin(admin.ModelAdmin):
     search_fields = ('declaration_id', 'ai_tool_name', 'specific_purpose')
     readonly_fields = ('declaration_id', 'validation_hash', 'created_at', 'updated_at')
     date_hierarchy = 'created_at'
+
+
+@admin.register(APIKey)
+class APIKeyAdmin(admin.ModelAdmin):
+    list_display = ('name', 'owner_email', 'is_active', 'request_count', 'last_used_at', 'created_at')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('name', 'owner_email')
+    readonly_fields = ('key', 'created_at', 'last_used_at', 'request_count')
+
+    fieldsets = (
+        ('Identificación', {
+            'fields': ('name', 'owner_email', 'is_active')
+        }),
+        ('Credencial', {
+            'fields': ('key',),
+            'description': 'La API key se genera automáticamente al crear el registro. '
+                           'Compártela con el sistema externo para que la use en el header: '
+                           'Authorization: Bearer <key>'
+        }),
+        ('Estadísticas', {
+            'fields': ('request_count', 'last_used_at', 'created_at'),
+            'classes': ('collapse',)
+        }),
+    )
 
 
 @admin.register(Signer)

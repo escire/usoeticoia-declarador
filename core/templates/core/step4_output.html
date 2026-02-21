@@ -29,27 +29,28 @@
         <p class="text-lg text-slate-500 mt-3 max-w-lg mx-auto">{% trans "Tu documento ha sido generado con trazabilidad completa y código de validación único." %}</p>
     </div>
 
-    <!-- Save Declaration Button (Optional) - MOVED HERE -->
+    <!-- Vincular identidad del autor (opcional) -->
     {% if not is_saved %}
-    <div id="saveDeclarationSection" class="max-w-3xl mx-auto bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-200 rounded-xl p-6" data-change-mind-text="{% trans '¿Cambiaste de opinión? Haz clic aquí para guardar la declaración' %}">
+    <div id="saveDeclarationSection" class="max-w-3xl mx-auto bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-200 rounded-xl p-6" data-change-mind-text="{% trans '¿Cambiaste de opinión? Haz clic aquí para vincular tu identidad' %}">
         <div class="flex items-start gap-4">
             <div class="bg-emerald-500 text-white rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
             </div>
             <div class="flex-1">
-                <h3 class="text-lg font-bold text-slate-900 mb-2">{% trans "¿Deseas guardar esta declaración?" %}</h3>
-                <p class="text-sm text-slate-600 mb-4">{% trans "Puedes guardar esta declaración en nuestra base de datos para verificación futura. Esto es opcional y permitirá que otros puedan validar tu declaración usando el hash o ID." %}</p>
+                <h3 class="text-lg font-bold text-slate-900 mb-1">{% trans "Declaración registrada" %} ✓</h3>
+                <p class="text-sm text-slate-600 mb-4">{% trans "Tu declaración ya está guardada y puede verificarse con el ID y hash. Opcionalmente, puedes vincular tu identidad como autor para que quede asociada públicamente." %}</p>
                 <div class="flex gap-3">
                     <button onclick="openSaveModal()" id="saveBtn" class="flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition-all shadow-md text-sm font-semibold">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path d="M5 13l4 4L19 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M10.172 13.828a4 4 0 015.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
-                        {% trans "Sí, guardar declaración" %}
+                        {% trans "Vincular mi identidad" %}
                     </button>
                     <button onclick="skipSave()" class="px-6 py-3 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-xl transition-all text-sm font-medium">
-                        {% trans "No, solo descargar" %}
+                        {% trans "No vincular" %}
                     </button>
                 </div>
                 <div id="saveMessage" class="hidden mt-3 p-3 bg-white border border-emerald-200 rounded-lg">
@@ -66,7 +67,7 @@
                     <path d="M5 13l4 4L19 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
             </div>
-            <p class="text-sm font-semibold text-emerald-700">{% trans "Declaración guardada exitosamente en la base de datos" %}</p>
+            <p class="text-sm font-semibold text-emerald-700">{% trans "Declaración registrada e identidad vinculada exitosamente" %}</p>
         </div>
     </div>
     {% endif %}
@@ -154,7 +155,7 @@
 <div id="saveModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 animate-fadeIn max-h-[90vh] overflow-y-auto">
         <div class="flex items-center justify-between mb-6">
-            <h3 class="text-2xl font-bold text-slate-900">{% trans "Datos del Autor" %}</h3>
+            <h3 class="text-2xl font-bold text-slate-900">{% trans "Vincular identidad" %}</h3>
             <button onclick="closeSaveModal()" class="text-slate-400 hover:text-slate-600 transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round"></path>
@@ -162,7 +163,7 @@
             </button>
         </div>
         <p class="text-sm text-slate-600 mb-6">
-            {% trans "Para guardar la declaración, necesitamos tus datos de contacto. Esta información solo se usará para identificar al autor de la declaración." %}
+            {% trans "Tu declaración ya está guardada. Proporciona tus datos para asociar tu identidad como autor. Esto es opcional y solo se usará para identificación pública." %}
         </p>
         <form id="saveForm" class="space-y-4">
             <div>
@@ -229,7 +230,7 @@
             </div>
             <div class="flex gap-3 pt-4">
                 <button type="submit" id="modalSaveBtn" class="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition-all shadow-md text-sm font-semibold">
-                    <span id="modalSaveBtnText">{% trans "Guardar declaración" %}</span>
+                    <span id="modalSaveBtnText">{% trans "Vincular declaración" %}</span>
                 </button>
                 <button type="button" onclick="closeSaveModal()" class="px-6 py-3 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-xl transition-all text-sm font-medium">
                     {% trans "Cancelar" %}

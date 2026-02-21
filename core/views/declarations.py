@@ -132,6 +132,10 @@ def step1_identification(request):
             data['usage_types'] = []
             data['current_step'] = 3  # Go directly to output
             save_session_data(request, data)
+            if 'generated_declaration' in request.session:
+                del request.session['generated_declaration']
+            if 'declaration_saved' in request.session:
+                del request.session['declaration_saved']
             return redirect('step4')
 
         # Get selected checklist items (only if AI was used)
@@ -287,6 +291,10 @@ def step3_details(request):
 
         data['current_step'] = 3
         save_session_data(request, data)
+        if 'generated_declaration' in request.session:
+            del request.session['generated_declaration']
+        if 'declaration_saved' in request.session:
+            del request.session['declaration_saved']
         return redirect('step4')
 
     context = {
@@ -309,11 +317,39 @@ def step3_details(request):
 
 @ensure_csrf_cookie
 def step4_output(request):
-    """Step 4: Display and download declaration"""
+    """Step 4: Display and download declaration — auto-saves to DB on first visit"""
     data = get_session_data(request)
     current_lang = get_language()
 
-    # Create Declaration object (but don't save yet)
+    # Idempotency: if a declaration is already saved in this session, reuse it
+    existing_id = request.session.get('generated_declaration', {}).get('declaration_id')
+    if existing_id:
+        try:
+            declaration = Declaration.objects.get(declaration_id=existing_id)
+            hash_value = declaration.validation_hash
+            text_output = generate_declaration_text(declaration, hash_value, current_lang)
+            json_output = generate_declaration_json(declaration, hash_value, current_lang)
+            # Update outputs in session (may change language)
+            request.session['generated_declaration']['text_output'] = text_output
+            request.session['generated_declaration']['json_output'] = json_output
+            request.session.modified = True
+            is_linked = request.session.get('declaration_saved', False)
+            context = {
+                'step': 3,
+                'steps_labels': get_translated_steps_labels(current_lang),
+                'declaration': declaration,
+                'text_output': text_output,
+                'json_output': json_output,
+                'hash': hash_value,
+                'glossary': get_translated_glossary(current_lang),
+                'presets': PRESETS,
+                'is_saved': is_linked,
+            }
+            return render(request, 'core/step4_output.html', context)
+        except Declaration.DoesNotExist:
+            pass  # The declaration was deleted from DB — generate a new one
+
+    # Generate new declaration and save it automatically in DB
     declaration = Declaration(
         ai_used=data.get('ai_used', True),
         selected_checklist_ids=data.get('selected_checklist_ids', []),
@@ -334,20 +370,18 @@ def step4_output(request):
         reviewer_role=data.get('human_review', {}).get('reviewer_role', ''),
         license=data.get('license', 'None')
     )
-
-    # Generate ID for display
     declaration.declaration_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
 
-    # Generate text and hash
     text_output = generate_declaration_text(declaration, None, current_lang)
     hash_value = compute_hash(text_output)
     declaration.validation_hash = hash_value
-
-    # Generate final outputs
     text_output = generate_declaration_text(declaration, hash_value, current_lang)
     json_output = generate_declaration_json(declaration, hash_value, current_lang)
 
-    # Guardar en sesión para guardado posterior opcional
+    # Save automatically in the database
+    declaration.save()
+
+    # Save reference in session
     request.session['generated_declaration'] = {
         'declaration_id': declaration.declaration_id,
         'validation_hash': hash_value,
@@ -355,9 +389,6 @@ def step4_output(request):
         'json_output': json_output,
     }
     request.session.modified = True
-
-    # Verificar si ya se guardó anteriormente
-    is_saved = request.session.get('declaration_saved', False)
 
     context = {
         'step': 3,
@@ -368,6 +399,6 @@ def step4_output(request):
         'hash': hash_value,
         'glossary': get_translated_glossary(current_lang),
         'presets': PRESETS,
-        'is_saved': is_saved,
+        'is_saved': False,  # Declaration saved, but author not yet linked
     }
     return render(request, 'core/step4_output.html', context)

@@ -950,6 +950,34 @@ msgstr "Declaração salva com sucesso no banco de dados"
 msgid "¿Cambiaste de opinión? Haz clic aquí para guardar la declaración"
 msgstr "Mudou de ideia? Clique aqui para salvar a declaração"
 
+# Step 4 - Vincular / Link Identity
+msgid "Declaración registrada"
+msgstr "Declaração registada"
+
+msgid "Tu declaración ya está guardada y puede verificarse con el ID y hash. Opcionalmente, puedes vincular tu identidad como autor para que quede asociada públicamente."
+msgstr "A sua declaração já foi guardada e pode ser verificada com o ID e hash. Opcionalmente, pode vincular a sua identidade como autor para que fique associada publicamente."
+
+msgid "Vincular mi identidad"
+msgstr "Vincular a minha identidade"
+
+msgid "No vincular"
+msgstr "Não vincular"
+
+msgid "Declaración registrada e identidad vinculada exitosamente"
+msgstr "Declaração registada e identidade vinculada com sucesso"
+
+msgid "Vincular identidad"
+msgstr "Vincular identidade"
+
+msgid "Tu declaración ya está guardada. Proporciona tus datos para asociar tu identidad como autor. Esto es opcional y solo se usará para identificación pública."
+msgstr "A sua declaração já foi guardada. Forneça os seus dados para associar a sua identidade como autor. Isto é opcional e só será utilizado para identificação pública."
+
+msgid "¿Cambiaste de opinión? Haz clic aquí para vincular tu identidad"
+msgstr "Mudou de ideia? Clique aqui para vincular a sua identidade"
+
+msgid "Vincular declaración"
+msgstr "Vincular declaração"
+
 # Declaration View
 msgid "Declaración"
 msgstr "Declaração"

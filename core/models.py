@@ -1,6 +1,7 @@
 from django.db import models
 import json
 import hashlib
+import secrets
 from datetime import datetime
 from django.core.validators import MinValueValidator, MaxValueValidator
 
@@ -125,7 +126,7 @@ class Declaration(models.Model):
     # Author information (required when saving)
     author_name = models.CharField(max_length=200, blank=True)
     author_email = models.EmailField(blank=True)
-    author_orcid = models.CharField(max_length=19, blank=True)  # Formato: 0000-0000-0000-0000
+    author_orcid = models.CharField(max_length=100, blank=True)  # Formato: 0000-0000-0000-0000 o URL completa
     author_orcid_verified = models.BooleanField(default=False)
     author_affiliation_ror_id = models.CharField(max_length=200, blank=True)  # ROR ID
 
@@ -186,3 +187,28 @@ class Declaration(models.Model):
 
     def __str__(self):
         return f"Declaration {self.declaration_id} - {self.ai_tool_name}"
+
+
+class APIKey(models.Model):
+    """API keys for external system integrations"""
+
+    name = models.CharField(max_length=100, help_text="Nombre del sistema externo (ej. Moodle USAL)")
+    key = models.CharField(max_length=64, unique=True, editable=False)
+    owner_email = models.EmailField(blank=True, help_text="Email de contacto del responsable de la integración")
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_used_at = models.DateTimeField(null=True, blank=True)
+    request_count = models.IntegerField(default=0)
+
+    class Meta:
+        verbose_name = 'API Key'
+        verbose_name_plural = 'API Keys'
+        ordering = ['-created_at']
+
+    def save(self, *args, **kwargs):
+        if not self.key:
+            self.key = secrets.token_hex(32)  # 64 chars hex
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.name} ({'activa' if self.is_active else 'inactiva'})"

@@ -38,9 +38,12 @@ from .signers import (
 from .utils import (
     load_preset,
     preview_declaration,
-    save_declaration,
+    link_declaration,
     privacy_policy,
 )
+
+# API externa
+from .external_api import create_declaration, get_declaration, get_options
 
 __all__ = [
     # Funciones auxiliares
@@ -66,6 +69,10 @@ __all__ = [
     # Auxiliares
     'load_preset',
     'preview_declaration',
-    'save_declaration',
+    'link_declaration',
     'privacy_policy',
+    # API externa
+    'create_declaration',
+    'get_declaration',
+    'get_options',
 ]

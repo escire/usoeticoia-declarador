@@ -115,79 +115,53 @@ def preview_declaration(request):
 
 
 @require_http_methods(["POST"])
-def save_declaration(request):
-    """Guardar la declaración generada en la base de datos (opcional)"""
+def link_declaration(request):
+    """Vincular datos del autor a la declaración ya guardada automáticamente en paso 4"""
     try:
-        data = get_session_data(request)
-        current_lang = get_language()
-
-        # Verificar si ya hay una declaración generada
-        if 'generated_declaration' not in request.session:
+        generated = request.session.get('generated_declaration')
+        if not generated or not generated.get('declaration_id'):
             return JsonResponse({
                 'success': False,
-                'error': 'No hay una declaración generada para guardar'
+                'error': 'No hay una declaración generada para vincular'
             }, status=400)
+
+        # Buscar la declaración ya guardada en DB
+        try:
+            declaration = Declaration.objects.get(declaration_id=generated['declaration_id'])
+        except Declaration.DoesNotExist:
+            return JsonResponse({
+                'success': False,
+                'error': 'La declaración no fue encontrada en la base de datos'
+            }, status=404)
 
         # Obtener datos del autor desde el request
         request_data = json_lib.loads(request.body)
         author_name = request_data.get('author_name', '').strip()
         author_email = request_data.get('author_email', '').strip()
-        author_orcid = request_data.get('author_orcid', '').strip()
-        author_orcid_verified = request_data.get('author_orcid_verified', False)
-        author_affiliation_ror_id = request_data.get('author_affiliation_ror_id', '').strip()
 
-        # Validar que se hayan proporcionado nombre y email
         if not author_name or not author_email:
             return JsonResponse({
                 'success': False,
                 'error': 'Se requieren nombre y correo electrónico del autor'
             }, status=400)
 
-        # Crear y guardar la declaración
-        declaration = Declaration(
-            author_name=author_name,
-            author_email=author_email,
-            author_orcid=author_orcid,
-            author_orcid_verified=author_orcid_verified,
-            author_affiliation_ror_id=author_affiliation_ror_id,
-            ai_used=data.get('ai_used', True),
-            selected_checklist_ids=data.get('selected_checklist_ids', []),
-            usage_types=data.get('usage_types', []),
-            custom_usage_type=data.get('custom_usage_type', ''),
-            ai_tool_name=data.get('ai_tool', {}).get('name', ''),
-            ai_tool_version=data.get('ai_tool', {}).get('version', ''),
-            ai_tool_provider=data.get('ai_tool', {}).get('provider', ''),
-            ai_tool_date_month=data.get('ai_tool', {}).get('date_month', datetime.now().month),
-            ai_tool_date_year=data.get('ai_tool', {}).get('date_year', datetime.now().year),
-            specific_purpose=data.get('specific_purpose', ''),
-            prompts=data.get('prompts', []),
-            content_use_modes=data.get('content_use_modes', []),
-            custom_content_use_mode=data.get('custom_content_use_mode', ''),
-            content_use_context=data.get('content_use_context', ''),
-            human_review_level=data.get('human_review', {}).get('level', 0),
-            reviewer_name=data.get('human_review', {}).get('reviewer_name', ''),
-            reviewer_role=data.get('human_review', {}).get('reviewer_role', ''),
-            license=data.get('license', 'None')
-        )
-
-        # Usar los datos generados previamente
-        generated = request.session['generated_declaration']
-        declaration.declaration_id = generated['declaration_id']
-        declaration.validation_hash = generated['validation_hash']
-
-        # Guardar en la base de datos
+        # Vincular datos del autor (UPDATE sobre declaración existente)
+        declaration.author_name = author_name
+        declaration.author_email = author_email
+        declaration.author_orcid = request_data.get('author_orcid', '').strip()
+        declaration.author_orcid_verified = request_data.get('author_orcid_verified', False)
+        declaration.author_affiliation_ror_id = request_data.get('author_affiliation_ror_id', '').strip()
         declaration.save()
 
-        # Marcar como guardado en sesión
+        # Marcar como vinculado en sesión
         request.session['declaration_saved'] = True
         request.session.modified = True
 
-        # Generar URL de la declaración
         declaration_url = reverse('view_declaration', kwargs={'declaration_id': declaration.declaration_id})
 
         return JsonResponse({
             'success': True,
-            'message': 'Declaración guardada exitosamente',
+            'message': 'Autor vinculado exitosamente',
             'declaration_id': declaration.declaration_id,
             'redirect_url': declaration_url
         })
