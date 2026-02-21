@@ -125,7 +125,7 @@ class Declaration(models.Model):
     # Author information (required when saving)
     author_name = models.CharField(max_length=200, blank=True)
     author_email = models.EmailField(blank=True)
-    author_orcid = models.CharField(max_length=19, blank=True)  # Formato: 0000-0000-0000-0000
+    author_orcid = models.CharField(max_length=100, blank=True)  # Formato: 0000-0000-0000-0000 o URL completa
     author_orcid_verified = models.BooleanField(default=False)
     author_affiliation_ror_id = models.CharField(max_length=200, blank=True)  # ROR ID
 

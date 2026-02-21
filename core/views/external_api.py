@@ -12,8 +12,18 @@ from django.views.decorators.http import require_http_methods
 from django.urls import reverse
 from django.conf import settings
 
+import re
+
 from ..models import Declaration, APIKey
 from ..utils import generate_declaration_text, generate_declaration_json, compute_hash
+
+
+def _normalize_orcid(raw: str) -> str:
+    """Extrae el ID ORCID en formato 0000-0000-0000-0000, aceptando URL o ID directo."""
+    if not raw:
+        return ''
+    match = re.search(r'\d{4}-\d{4}-\d{4}-\d{3}[\dX]', raw, re.IGNORECASE)
+    return match.group(0) if match else raw.strip()
 
 
 def require_api_key(view_func):
@@ -108,7 +118,7 @@ def create_declaration(request):
             ai_used=False,
             author_name=body.get('author_name', '').strip(),
             author_email=body.get('author_email', '').strip(),
-            author_orcid=body.get('author_orcid', '').strip(),
+            author_orcid=_normalize_orcid(body.get('author_orcid', '')),
             author_affiliation_ror_id=body.get('author_affiliation_ror_id', '').strip(),
             # Campos requeridos por el modelo pero irrelevantes para NO AI
             usage_types=[],
@@ -175,25 +185,23 @@ def create_declaration(request):
             license=body.get('license', 'None'),
             author_name=body.get('author_name', '').strip(),
             author_email=body.get('author_email', '').strip(),
-            author_orcid=body.get('author_orcid', '').strip(),
+            author_orcid=_normalize_orcid(body.get('author_orcid', '')),
             author_orcid_verified=body.get('author_orcid_verified', False),
             author_affiliation_ror_id=body.get('author_affiliation_ror_id', '').strip(),
         )
 
-    # Generar texto sin hash para calcular el hash
+    # Calcular hash desde texto sin ID ni hash (el ID se asigna en save())
     declaration_text_no_hash = generate_declaration_text(declaration, None, lang)
     hash_value = compute_hash(declaration_text_no_hash)
 
-    # Regenerar texto final con hash incluido
-    declaration_text = generate_declaration_text(declaration, hash_value, lang)
-
-    # Generar JSON
-    declaration_json_str = generate_declaration_json(declaration, hash_value, lang)
-    declaration_json = json.loads(declaration_json_str)
-
-    # Guardar en base de datos (asigna declaration_id automáticamente)
+    # Guardar primero para que se asigne declaration_id automáticamente
     declaration.validation_hash = hash_value
     declaration.save()
+
+    # Regenerar texto y JSON con declaration_id y hash ya disponibles
+    declaration_text = generate_declaration_text(declaration, hash_value, lang)
+    declaration_json_str = generate_declaration_json(declaration, hash_value, lang)
+    declaration_json = json.loads(declaration_json_str)
 
     return JsonResponse(_declaration_response(declaration, hash_value, declaration_text, declaration_json, request))
 
