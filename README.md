@@ -1,5 +1,7 @@
 # Declarador
 
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+
 Sistema web para generar declaraciones de transparencia sobre el uso de Inteligencia Artificial Generativa en trabajos académicos.
 
 ## Descripción
@@ -462,7 +464,9 @@ Las contribuciones son bienvenidas. Para contribuir:
 
 ## Licencia
 
-Este proyecto es una migración del proyecto original usoeticoia.org (React + TypeScript) a Django, manteniendo el mismo propósito educativo de promover la transparencia en el uso académico de IA.
+Este proyecto se distribuye bajo la [Apache License, Version 2.0](LICENSE).
+
+Es una migración del proyecto original usoeticoia.org (React + TypeScript) a Django, manteniendo el mismo propósito educativo de promover la transparencia en el uso académico de IA.
 
 ## Contacto y soporte
 

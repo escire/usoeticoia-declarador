@@ -8,6 +8,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 ## [Unreleased]
 
 ### Agregado
+- Archivo `LICENSE` con Apache License 2.0
 - Sistema de versionado semántico con archivo VERSION
 - Script de automatización de versiones en `scripts/bump_version.py`
 - Documentación completa de versionado en `docs/VERSIONING.md`
